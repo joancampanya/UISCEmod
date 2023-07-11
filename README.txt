@@ -3,7 +3,7 @@
 Code in python for modelling water level time series in ephemeral karstic wetlands.
 
 For details about installation and use of UISCEmod please see the UISCEmod User Manual in the
-*UISCEmod/Documents/* 
+*/UISCEmod/Documents/* 
 
 For further details about UISCEmod see Campanyà et al. (2023).
 
