@@ -11,9 +11,9 @@ Code in python for modelling water level time series in ephemeral karstic wetlan
 For details about installation and use of UISCEmod please see the UISCEmod User Manual in the
 */UISCEmod/Documents/* 
 
-For further details about UISCEmod see Campanyà et al. (2023).
+For further details about UISCEmod see the manuscript Campanyà et al. (2023).
 
-## Version
+## UISCEmod Version
 072023
 
 
@@ -42,5 +42,3 @@ Campanyà,J.,McCormack,T.,Gill,L.W.,Johnston,P.M.,Licciardi,A.,Naughton,O.,2023.
 UISCEmod: Open-source software for modelling water level time series in 
 ephemeral karstic wetlands. Environmental Modelling & Software 167, 105761.
 https://doi.org/10.1016/j.envsoft.2023.105761
-
-                                                                                   *updated 11/07/2023*
