@@ -1,3 +1,0 @@
-site_name,gen_ER,mode,model_approach,version,iterations,burn_in,tunning
-Ballycar Lough,True,calibration,EM,v_EM_run_0,1e5,0.5,3000
-Ballycar Lough,False,calibration,LM,v_LM_run_0,3e4,0.5,-3000

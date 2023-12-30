@@ -1,0 +1,29 @@
+[project]
+name = "UISCEmod"
+version = "072023"
+authors = [
+  { name="Joan Campanyà i Llovet", email="Joan.Campanya@setu.ie" },
+]
+description = "Open-source software for modelling water level time series in ephemeral karstic wetlands."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: Other/Proprietary License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "click>=8.1",
+  "pandas",
+  "numpy",
+  "corner",
+  "scipy",
+  "matplotlib"
+]
+
+[project.scripts]
+uisce = "uisce.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/joancampanya/UISCEmod"
+Issues = "https://github.com/joancampanya/UISCEmod/issues"

@@ -41,8 +41,9 @@ random_state = random.randint(0, 1e6)
 
 #######################################################################
 #######################################################################
-class visualization:
+class Visualization:
     ###################################################################
+    @staticmethod
     def variables_dependency(
         accepted,
         accepted_tot,
@@ -95,7 +96,7 @@ class visualization:
                     txt = "corner_plot_accepted_all"
 
                 # Generate corner plots
-                visualization.corner_plot(
+                Visualization.corner_plot(
                     var_accepted,
                     txt,
                     mask_range,
@@ -111,6 +112,7 @@ class visualization:
         return ()
 
     ###################################################################
+    @staticmethod
     def stage_discharge_curves(
         obs, df_y_s, df_y_all, df_y_all_s, df_outflow, path_results, mode
     ):
@@ -247,6 +249,7 @@ class visualization:
         return ()
 
     ###################################################################
+    @staticmethod
     def net_in_out_flows(
         obs, mod_ts, outflow, inflow, path_out, df_in, df_precip, mode
     ):
@@ -359,6 +362,7 @@ class visualization:
         return ()
 
     ###################################################################
+    @staticmethod
     def ts_imaging_empirical_errors(
         run_var,
         df_y_all,
@@ -596,13 +600,13 @@ class visualization:
 
             # Compute evaluation metrix
             try:
-                NSE = outputs.NSE(df_mod_plot.copy(), df_meas_plot.copy())
+                NSE = Outputs.NSE(df_mod_plot.copy(), df_meas_plot.copy())
 
-                (KGE, kge_1, kge_2, kge_3) = outputs.KGE(
+                (KGE, kge_1, kge_2, kge_3) = Outputs.KGE(
                     df_mod_plot.copy(), df_meas_plot.copy()
                 )
 
-                BIAS = outputs.BIAS(df_mod_plot.copy(), df_meas_plot.copy())
+                BIAS = Outputs.BIAS(df_mod_plot.copy(), df_meas_plot.copy())
             except:
                 NSE = "N/A"
                 KGE = "N/A"
@@ -678,6 +682,7 @@ class visualization:
 
     ###################################################################
 
+    @staticmethod
     def ts_imaging_model_parameters_propagation(
         run_var,
         df_y_all,
@@ -820,13 +825,13 @@ class visualization:
 
             # Compute evaluation metrix
             try:
-                NSE = outputs.NSE(df_mod_plot.median(axis=1).to_frame(), df_meas_plot)
+                NSE = Outputs.NSE(df_mod_plot.median(axis=1).to_frame(), df_meas_plot)
 
-                (KGE, kge_1, kge_2, kge_3) = outputs.KGE(
+                (KGE, kge_1, kge_2, kge_3) = Outputs.KGE(
                     df_mod_plot.median(axis=1).to_frame(), df_meas_plot
                 )
 
-                BIAS = outputs.BIAS(df_mod_plot.median(axis=1).to_frame(), df_meas_plot)
+                BIAS = Outputs.BIAS(df_mod_plot.median(axis=1).to_frame(), df_meas_plot)
             except:
                 NSE = "N/A"
                 KGE = "N/A"
@@ -868,6 +873,7 @@ class visualization:
 
     ###################################################################
 
+    @staticmethod
     def autocorrelation_analysis_model_parameters(
         accepted, variables, mask_range, path_results, m_ap, site_name
     ):
@@ -945,6 +951,7 @@ class visualization:
         return ()
 
     ###################################################################
+    @staticmethod
     def accepted_gamma_distributions(
         window, accepted, variables, path_results, m_ap, site_name
     ):
@@ -1039,6 +1046,7 @@ class visualization:
         return ()
 
     ###################################################################
+    @staticmethod
     def plot_distribution_model_parameters(
         model_par,
         accepted,
@@ -1138,6 +1146,7 @@ class visualization:
         return ()
 
     ###################################################################
+    @staticmethod
     def corner_plot(
         var_accepted,
         txt,
@@ -1222,8 +1231,9 @@ class visualization:
 
 #######################################################################
 #######################################################################
-class outputs:
+class Outputs:
     ###################################################################
+    @staticmethod
     def store_likelihood_values(accepted_lik, path_out, site_name, version):
         """
         Store likelihood values of accepted model parameters
@@ -1257,6 +1267,7 @@ class outputs:
         return ()
 
     ###################################################################
+    @staticmethod
     def results_and_products(
         df_precip_sel,
         df_et_sel,
@@ -1409,7 +1420,7 @@ class outputs:
                     sel_time_series = run_var["pot_time_series"][2]
                     impose_overlap = False
 
-                outputs.outputs_analysis(
+                Outputs.outputs_analysis(
                     df.copy(),
                     check_var_samp,
                     df_precip_sel.copy(),
@@ -1435,6 +1446,7 @@ class outputs:
         return ()
 
     ###################################################################
+    @staticmethod
     def compute_forward_solution(
         obs,
         m_ap,
@@ -1506,10 +1518,10 @@ class outputs:
         print("    Computing model propagation...")
         # Select forward and related variables
         if m_ap == "LM":
-            forward = forwards.lm_reservoir_model
+            forward = Forwards.lm_reservoir_model
 
         if m_ap == "EM":
-            forward = forwards.gamma_transfer_function
+            forward = Forwards.gamma_transfer_function
 
         # Read accepted model parameters
         f = []
@@ -1694,6 +1706,7 @@ class outputs:
 
     #######################################################################
 
+    @staticmethod
     def NSE(df_y_mod, df_y_meas):
         """
         Compute NSE for data fit assessment
@@ -1725,6 +1738,7 @@ class outputs:
 
     #######################################################################
 
+    @staticmethod
     def KGE(df_y_mod, df_y_meas):
         """
         Compute KGE for data fit assessment
@@ -1771,6 +1785,7 @@ class outputs:
         )
 
     ###################################################################
+    @staticmethod
     def BIAS(df_y_mod, df_y):
         """
         Compute BIAS for data fit assessment
@@ -1801,6 +1816,7 @@ class outputs:
 
     ###################################################################
 
+    @staticmethod
     def store_accepted_ts(df_accepted_ts, df_accepted_ts_tmp, df_cal, path_out):
         """
         store accepted time series
@@ -1833,6 +1849,7 @@ class outputs:
 
     ###################################################################
 
+    @staticmethod
     def outputs_analysis(
         obs,
         check_var_samp,
@@ -1993,7 +2010,7 @@ class outputs:
 
         if sel_time_series == "calibration":
             print("    imaging model parameters...")
-            visualization.plot_distribution_model_parameters(
+            Visualization.plot_distribution_model_parameters(
                 model_par_all,
                 accepted_all,
                 variables_all,
@@ -2005,7 +2022,7 @@ class outputs:
             )
 
             if run_var["uisce_mode"] != "sample_the_prior":
-                visualization.accepted_gamma_distributions(
+                Visualization.accepted_gamma_distributions(
                     window,
                     accepted,
                     variables,
@@ -2042,7 +2059,7 @@ class outputs:
                 q_2up,
                 q_down,
                 q_2down,
-            ) = outputs.compute_forward_solution(
+            ) = Outputs.compute_forward_solution(
                 obs,
                 m_ap,
                 path_results,
@@ -2068,7 +2085,7 @@ class outputs:
 
                 # Show error distribution for segments of the time series that
                 # overlap with measured data
-                outputs.errors_analysis(
+                Outputs.errors_analysis(
                     df_y_all.copy(),
                     obs.copy(),
                     min_val,
@@ -2138,7 +2155,7 @@ class outputs:
                 # ####
                 # plot time series using model parameters propagation
                 print("    imaging time series from model parameters propagation...")
-                visualization.ts_imaging_model_parameters_propagation(
+                Visualization.ts_imaging_model_parameters_propagation(
                     run_var,
                     df_y_all.copy(),
                     df_y.copy(),
@@ -2154,7 +2171,7 @@ class outputs:
                 # ####
                 # plot time series using empirical errors
                 print("    imaging time series with empirical errors...")
-                visualization.ts_imaging_empirical_errors(
+                Visualization.ts_imaging_empirical_errors(
                     run_var,
                     df_y_all.copy(),
                     df_y.copy(),
@@ -2174,7 +2191,7 @@ class outputs:
                 # # ####
                 # # Plot stage discharge plots using net flow and modelled discharge
                 print("    Imaging stage discharge curves...")
-                visualization.stage_discharge_curves(
+                Visualization.stage_discharge_curves(
                     obs,
                     df_y_s,
                     df_y_all,
@@ -2186,7 +2203,7 @@ class outputs:
 
                 # # plot recharge discharge netflow comparisons
                 if run_var["model_approach"] == "LM":
-                    visualization.net_in_out_flows(
+                    Visualization.net_in_out_flows(
                         obs,
                         df_y_all,
                         df_disch,
@@ -2199,7 +2216,7 @@ class outputs:
 
             # ####
             if sel_time_series == "calibration":
-                visualization.autocorrelation_analysis_model_parameters(
+                Visualization.autocorrelation_analysis_model_parameters(
                     accepted,
                     variables,
                     mask_range,
@@ -2211,6 +2228,7 @@ class outputs:
         return ()
 
     ###################################################################
+    @staticmethod
     def store_accepted_parameters(
         accepted, accepted_met, variables, path_out, site_name, run_var, txt=""
     ):
@@ -2242,7 +2260,7 @@ class outputs:
 
         """
 
-        (accepted_r, accepted_met_r) = outputs.reformat_accepted_parameters(
+        (accepted_r, accepted_met_r) = Outputs.reformat_accepted_parameters(
             accepted.copy(), accepted_met.copy()
         )
 
@@ -2262,6 +2280,7 @@ class outputs:
 
     ###################################################################
 
+    @staticmethod
     def errors_analysis(
         df_accepted_ts,
         df_gwl,
@@ -2384,6 +2403,7 @@ class outputs:
 
     ###################################################################
 
+    @staticmethod
     def reformat_accepted_parameters(accepted, accepted_met):
         """
         Reformat the accepted model parameters to facilitate output
@@ -2428,8 +2448,9 @@ class outputs:
 
 #######################################################################
 #######################################################################
-class mcmc:
+class MCMC:
     ###################################################################
+    @staticmethod
     def get_random_uniform_variables(x, v_range, df_in):
         """
         get random value from a range of values assuming all values
@@ -2459,6 +2480,7 @@ class mcmc:
         return (x_new, precip_var_new)
 
     ###################################################################
+    @staticmethod
     def check_convergence(df_cal, x, i, iterations, run_var, check_var_samp):
         """
         Check if the calibration process is converging. If it is doing better
@@ -2501,6 +2523,7 @@ class mcmc:
         return check_conv
 
     ###################################################################
+    @staticmethod
     def keep_time_series(df_accepted_ts_tmp, df_accepted_ts, ts_tmp, i):
         """
         Decide which of the accepted time series to keep. This is performed
@@ -2548,6 +2571,7 @@ class mcmc:
         return (df_accepted_ts, df_accepted_ts_tmp)
 
     ###################################################################
+    @staticmethod
     def define_initial_variables(
         v_init, run_var, param_steps_ini, hsm_step_ini, mask_range
     ):
@@ -2621,6 +2645,7 @@ class mcmc:
         )
 
     ###################################################################
+    @staticmethod
     def tunning(
         x,
         x_lik,
@@ -2782,7 +2807,7 @@ class mcmc:
                         df_in_sel,
                         precip_var_new,
                         last_change,
-                    ) = mcmc.transition_model_parameters(
+                    ) = MCMC.transition_model_parameters(
                         x_tun.copy(),
                         v_range.copy(),
                         mask_range.copy(),
@@ -2798,11 +2823,11 @@ class mcmc:
                     #####
                     # Check that the new parameters fit within the prior
                     # If they do evaluate if they get accepted or not
-                    if mcmc.prior(x_new, v_range, variables) == 0:
+                    if MCMC.prior(x_new, v_range, variables) == 0:
                         print("ISSUES at generating the prior!")
                         break
 
-                    if mcmc.prior(x_new, v_range, variables) == 1:
+                    if MCMC.prior(x_new, v_range, variables) == 1:
                         # Get input parameters used to compute the forward
                         # and evaluate the likelihood
                         if run_var["model_approach"] == "LM":
@@ -2831,7 +2856,7 @@ class mcmc:
 
                         ####
                         # Compute forward solution and likelihood
-                        (x_new_lik, ts_tmp) = mcmc.lik_normal(
+                        (x_new_lik, ts_tmp) = MCMC.lik_normal(
                             df_cal.copy(), forward, cal_inputs.copy(), run_var
                         )
 
@@ -2842,7 +2867,7 @@ class mcmc:
                         )
 
                         # Otherwise base it on the acceptance criteria
-                        if mcmc.acceptance(x_lik, x_new_lik):
+                        if MCMC.acceptance(x_lik, x_new_lik):
                             # update model parameters and reference likelihood
                             x = x_new
                             x_lik = x_new_lik
@@ -2854,7 +2879,7 @@ class mcmc:
 
                 # evaluate condition
                 try:
-                    (ratio_val, autocorrelation_val) = mcmc.update_tunning_evaluation(
+                    (ratio_val, autocorrelation_val) = MCMC.update_tunning_evaluation(
                         np.array(accepted)[:, i].copy(),
                         np.array(rejected)[:, i].copy(),
                         tunning_iterations,
@@ -2884,7 +2909,7 @@ class mcmc:
         print("\n    # Summary accepted ratio:")
         print(df_acceptance)
 
-        (new_step_size) = mcmc.select_steps_sizes_from_tunning(
+        (new_step_size) = MCMC.select_steps_sizes_from_tunning(
             df_autocorrelation.iloc[0:-1, :],
             df_acceptance.iloc[0:-1, :],
             p_jump,
@@ -2907,6 +2932,7 @@ class mcmc:
         return (new_step_size, new_hsm_step_size)
 
     ###################################################################
+    @staticmethod
     def select_steps_sizes_from_tunning(
         df_autocorrelation,
         df_acceptance,
@@ -2987,6 +3013,7 @@ class mcmc:
         return st_range
 
     ###################################################################
+    @staticmethod
     def update_tunning_evaluation(accept_tunning, reject_tunning, tunning_iterations):
         """
         calculate autocorrelation and acceptance ratio of model parameters
@@ -3035,6 +3062,7 @@ class mcmc:
         return (accept_ratio, lag_time)
 
     ###################################################################
+    @staticmethod
     def proportion_accepted_models(accepted_tot, accepted, rejected, th_acceptance):
         """
         caluclate proportion of accepted model parameters for the total
@@ -3076,6 +3104,7 @@ class mcmc:
         return ()
 
     ###################################################################
+    @staticmethod
     def acceptance(x_acc, x_new_acc):
         """
         Decide if the new model parameters (candidate) are accepted or not
@@ -3105,6 +3134,7 @@ class mcmc:
             return np.log(accept) <= (x_new_acc - x_acc)
 
     ######################################################################
+    @staticmethod
     def lik_normal(obs, forward, inputs, run_var):
         """
         Parameters
@@ -3172,6 +3202,7 @@ class mcmc:
         return (lik, f_inputs_all)
 
     #######################################################################
+    @staticmethod
     def prior(x, x_range, variables):
         """
         check that the model parameters agree with the potential values
@@ -3200,6 +3231,7 @@ class mcmc:
 
     ###################################################################
     ###################################################################
+    @staticmethod
     def transition_model_parameters(
         x,
         v_range,
@@ -3340,8 +3372,9 @@ class mcmc:
 
 #######################################################################
 #######################################################################
-class forwards:
+class Forwards:
     ###################################################################
+    @staticmethod
     def gamma_transfer_function(inputs):
         """
         Forward for the EM approach
@@ -3399,6 +3432,7 @@ class forwards:
         return y.iloc[window::]
 
     ###################################################################
+    @staticmethod
     def lm_reservoir_model(inputs):
         """
         Forward for the LM approach
@@ -3578,8 +3612,9 @@ class forwards:
 
 #######################################################################
 #######################################################################
-class preprocessing:
+class Preprocessing:
     ###################################################################
+    @staticmethod
     def model_parameters(
         lm_model_par, em_model_par, run_var, df_all, path_sav, site_name, initial_vol
     ):
@@ -3652,6 +3687,7 @@ class preprocessing:
         )
 
     ###################################################################
+    @staticmethod
     def initial_conditions(path_sav, df_wl, run_var, lm_model_par, em_model_par, df_in):
         """
         Divide the time series into calibration, validation and forward datasets.
@@ -3715,6 +3751,7 @@ class preprocessing:
         )
 
     ###################################################################
+    @staticmethod
     def wl_data(path_sav, df, run_var):
         """
         Divide water level data into calibration, validation and forward time
@@ -3906,6 +3943,7 @@ class preprocessing:
         return (df_cal, df_val, df_for, df_all, min_values, spillpoint)
 
     ###################################################################
+    @staticmethod
     def parameters_em(em_model_par):
         """
         Get information for calibration/forward process of the EM approach
@@ -3925,7 +3963,7 @@ class preprocessing:
         v_range = em_model_par["v_range"]
         mask_range = em_model_par["mask_range"]
         v_init = em_model_par["v_init"]
-        forward = forwards.gamma_transfer_function
+        forward = Forwards.gamma_transfer_function
         param_steps_ini = em_model_par["step_size_em"] * (v_range[:, 1] - v_range[:, 0])
         mask_range = list(map(lambda x: x == "True", mask_range))
         hsm_step_ini = em_model_par["step_size_em"]
@@ -3941,6 +3979,7 @@ class preprocessing:
         )
 
     ###################################################################
+    @staticmethod
     def parameters_lm(lm_model_par, initial_vol, df_all, path_sav, site_name):
         """
         Get information for calibration/forward process of the LM approach
@@ -3964,7 +4003,7 @@ class preprocessing:
 
         """
 
-        forward = forwards.lm_reservoir_model
+        forward = Forwards.lm_reservoir_model
 
         v_range = []
         v_init = []
@@ -4038,6 +4077,7 @@ class preprocessing:
         )
 
     ###################################################################
+    @staticmethod
     def initial_er_conditions(
         run_var, lm_model_par, em_model_par, df_cal, df_val, df_for, df_in
     ):
@@ -4107,6 +4147,7 @@ class preprocessing:
         return (df_in_cal, df_in_val, df_in_for, initial_vol)
 
     ###################################################################
+    @staticmethod
     def convert_hydrol_param(
         path_sav,
         df_y,
@@ -4234,6 +4275,7 @@ class preprocessing:
 #######################################################################
 class inputs:
     ###################################################################
+    @staticmethod
     def get_meteorological_datasets(
         path_sites_input_ts, run_var, em_model_par, lm_model_par, site_name, ER_update
     ):
@@ -4291,6 +4333,7 @@ class inputs:
         return (df_precip_sel, df_et_sel, df_precip_evap, df_in)
 
     ###################################################################
+    @staticmethod
     def get_job_details(path_sites_info, path_out, df_sites, s_len):
         """
         Get information about the jobs that need to be executed
@@ -4352,6 +4395,7 @@ class inputs:
         )
 
     ###################################################################
+    @staticmethod
     def get_paths_and_initial_information(job_ext=""):
         """
         Access to paths to run UISCEmod and information about the jobs to run.
@@ -4429,6 +4473,7 @@ class inputs:
         return (df_sites, main_path)
 
     ###################################################################
+    @staticmethod
     def create_folder(path_results):
         """
         Automatically generates internal directories for the jobs that are
@@ -4454,6 +4499,7 @@ class inputs:
         return ()
 
     ###################################################################
+    @staticmethod
     def get_water_level_data(path):
         """
         get water level time series for site of interest following
@@ -4490,6 +4536,7 @@ class inputs:
         return df
 
     ###################################################################
+    @staticmethod
     def generate_potential_effective_rainfall_datasets(
         run_var, df_precip_sel, df_et_sel, path_sites_input_ts, site_name
     ):
@@ -4565,6 +4612,7 @@ class inputs:
         return ()
 
     ###################################################################
+    @staticmethod
     def get_meteorological_data_per_site(
         path_sites_input_ts, run_var, em_model_par, lm_model_par, site_name
     ):
@@ -4638,6 +4686,7 @@ class inputs:
         return (df_precip_sel, df_et_sel, df_precip_evap)
 
     ###################################################################
+    @staticmethod
     def get_model_parameters(path, df_sites, path_out):
         """
         Get modelling information for specific site
@@ -4900,6 +4949,7 @@ class inputs:
         return (em_model_parameters, lm_model_parameters, run_variables, check_var_samp)
 
     ###################################################################
+    @staticmethod
     def get_spillpoints(path_spill, df_sites):
         """
 

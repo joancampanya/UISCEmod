@@ -65,36 +65,42 @@ South East Technological University (SETU), Ireland
 
 # %%
 # Import libraries
+import click
+import warnings
+import logging
+
 from . import uisce
 from . import inputs
 from . import calibration
 from . import outputs
 
+logger = logging.getLogger(__name__)
 
-# Comment if you want to see the warnings
-import warnings
+@click.command()
+@click.option("-j", "--job-extension", default="", help="Define job extension if you are planning to send multiple jobs at the same time")
+@click.option("-v", "--verbose", count=True)
+def cli(job_extension, verbose):
+    if not verbose:
+        warnings.filterwarnings("ignore")
+    elif verbose == 1:
+        logger.setLevel(logging.INFO)
+    elif verbose >= 2:
+        logger.setLevel(logging.DEBUG)
 
-warnings.filterwarnings("ignore")
+    # Get job information
+    (df_sites, main_path) = uisce.inputs.get_paths_and_initial_information(job_ext=job_extension)
 
-#######################################################################
-# Define job extension if you are planning to send multiple jobs at the same time
-job_ext = ""
+    for s_len in df_sites.index:
+        # # Generate input variables
+        click.echo("\n#####\nINPUT MODULE:")
+        inputs.job_in(main_path, s_len, job_extension)
 
-# Get job information
-(df_sites, main_path) = uisce.inputs.get_paths_and_initial_information(job_ext=job_ext)
+        # Perform calibration
+        if df_sites.loc[s_len]["mode"] == "calibration":
+            print("\n#####\nCALIBRARION MODULE:")
 
+            calibration.job_cal(main_path, s_len, job_extension)
 
-for s_len in df_sites.index:
-    # # Generate input variables
-    print("\n#####\nINPUT MODULE:")
-    inputs.job_in(main_path, s_len, job_ext)
-
-    # Perform calibration
-    if df_sites.loc[s_len]["mode"] == "calibration":
-        print("\n#####\nCALIBRARION MODULE:")
-
-        calibration.job_cal(main_path, s_len, job_ext)
-
-    # Generate outputs
-    print("\n#####\nOUTPUT MODULE:")
-    outputs.job_out(main_path, s_len, job_ext)
+        # Generate outputs
+        print("\n#####\nOUTPUT MODULE:")
+        outputs.job_out(main_path, s_len, job_extension)

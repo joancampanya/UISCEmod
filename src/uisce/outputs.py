@@ -13,7 +13,7 @@ the UISCEmod input and the calibration modules.
 @author: Joan Campanya i Llovet 
 South East Technological University (SETU), Ireland
 """
-import UISCEmod_library_v072023 as uisce
+from . import uisce
 import pickle
 
 
