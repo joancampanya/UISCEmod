@@ -1,0 +1,43 @@
+####
+# Groundwater Level Data Constrains
+time_series:[calibration,validation,forward]             # Name time series 
+st_time_series:['2019-04-01','2020-06-01','2109-04-01']  # start of groundwater time series [calibration, validation, forward calculations]            
+end_time_series:['2020-06-01','2021-06-01','2021-06-01'] # end of groundwater time series [calibration, validation, forward calculations] 
+cut_off:[0.0,0.0,0.0]                                    # [0 to 1] Values smaller than the cut_off (relative to maximum value) will be ignored
+q_low:[0.0,0.0,0.0]                                      # [0 to 1] Volume values below this quantile value will be ignored 
+q_high:[1.0,1.0,1.0]                                     # [0 to 1] Volume values above this quantile will be ignored 
+min_stage:[20.5,20.5,20.5]                               # [-inf to inf] Minimum stage detectable [m] (i.e. elevation of the datalogger)
+model_volume:True                                        # True or False. If False it will model stage time series and ignore the stage volume curve
+spillpoint:1e99                                          # Elevation of the spill point/overtopping [m]
+
+
+####
+# Potential Hsmax values for addapting meteorological data
+met_data:[0,300,5,*,True]             # [mm] Potential Hs max values
+
+
+####
+# EM model parameters
+window_em:1000                        #[days] Length of the gamma distribution
+step_size_em:1                        #[%] size of the step size relative to amplitude of possible values for each model parameter
+C1_em:[8.1e8,2.5e9,*,True]            #[m2] Scale factor
+C0_em:[-5e6,-8e5,*,True]              #[m3] Constant factor
+a_gamma_em:[1,4,*,True]               #[-] Shape parameter gamma distribution
+b_gamma_em:[0.1,100,*,True]           #[-] Scale parameter gamma distribution
+std_em:[1,1e6,*,True]                 #[m3] Uncertainties between measured and modelled time series assuming Gaussian distribution
+
+
+####
+# LM model parameters
+window_lm:300                         # [days] Length of the gamma distribution.
+step_size_lm:1                        # [%] Size of the step size relative to amplitude of possible values for each model parameter.
+C1_lm:[2e7,5e7,*,True]         		  # [m2] Scale factor.
+a_gamma_lm:[1.0,3.0,1,False]          # [-] Shape parameter gamma distribution.
+b_gamma_lm:[10,80,*,True]             # [-] Scale parameter gamma distribution.
+coef_flow:[-10000,-6000,*,True] 	  # [m2/day] Coefficient for the variable outflow.
+const_flow:[-270000,-12000,*,True]    # [m3/day] Constant outflow.
+stage_flow:[10.,20,15.5,False]        # [m] Elevation of the wetland discharge point.
+beta:[0.8,1.6,*,True]                 # [-] Orifice coefficient for wetland discharge.
+std_lm:[1,1000000,*,True]             # [m3] Uncertainties between measured and modelled time series assuming Gaussian distribution
+ref_date:['2018-05-01']               # Date where to start modelling (related to spin up period). The initial volume is related to this day.
+initial_volume:[-9999]                # [m3] Volume of the flood for the ref_date. -9999 tries gets the value from measured data.
