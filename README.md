@@ -16,6 +16,11 @@ For further details about UISCEmod see the manuscript Campanyà et al. (2023).
 ## UISCEmod Version
 072023
 
+## EXECUTION
+
+After installation, UISCEmod can be run by going to the `data/` directory and running:
+
+    uisce
 
 ## LICENCE
 UISCEmod is under the license: Attribution 4.0 International (CC BY 4.0).
