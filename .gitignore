@@ -1,0 +1,12 @@
+.*#
+*.egg-info
+.eggs
+.cache
+__pycache__
+build
+dist
+*.pyc
+openfaas_fn
+.idea
+data/
+.DS_Store
